@@ -176,14 +176,13 @@ max_list([X], X).
 
 max_list([H | T], Big) :-
     max_list(T, BigTail),
+    if_then_else(H > BigTail, Big is H, Big is BigTail).
 
-    ( % If H > BigTail Then
-        H > BigTail ->
-            Big is H
-        % Else
-        ;
-            Big is BigTail
-    ).
+if_then_else(Condition, Action, _OtherAction) :-
+    Condition, !, Action.
+
+if_then_else(_Condition, _Action, OtherAction) :-
+    OtherAction.
 
 % the score is (-1)*violations => count_violations(Constraints, Board, Count)
 count_violations([], _Board, 0).
